@@ -1,0 +1,240 @@
+/* style.css - FUTUREHOOMAN.COM - Iron Giant Eyes Mk I - Revision 2 (Form Fix & Spacing) */
+:root { /* (Variables same as previous version) */
+    --font-primary-system-voice: 'Megrim', sans-serif;
+    --font-secondary-ui: 'Orbitron', sans-serif;
+    --color-background-void: #020306;
+    --color-text-megrim: #b0e0e6;
+    --color-text-orbitron: #c0f0ff;
+    --color-logo-default: var(--color-text-orbitron);
+    --color-megrim-scanning: #FFD700;
+    --color-megrim-evaluating: #FFA500;
+    --color-megrim-accepted: #88dd88;
+    --color-megrim-error: #FF5533;
+    --color-megrim-whisper: rgba(176, 224, 230, 0.6);
+    --color-megrim-lore: #a0cfd6;
+    --color-eye-pupil-default: #87CEFA;
+    --color-eye-accent-glow: #ff00ff;
+    --color-eye-scanning: var(--color-megrim-scanning);
+    --color-eye-evaluating: var(--color-megrim-evaluating);
+    --color-eye-border-default: var(--color-text-orbitron);
+    --transition-speed-fast: 0.25s;
+    --transition-speed-medium: 0.5s;
+    --transition-speed-slow: 0.8s;
+    --logo-dim-opacity: 0.35;
+}
+
+body { /* (Same as before) */
+    margin: 0; font-family: var(--font-secondary-ui);
+    background-color: var(--color-background-void); color: var(--color-text-orbitron);
+    display: flex; justify-content: center; align-items: center;
+    min-height: 100vh; overflow: hidden; text-rendering: optimizeLegibility;
+}
+.portal-container { /* (Same as before) */
+    text-align: center; padding: 20px;
+    max-width: 700px; width: 90%; position: relative;
+}
+.portal-header { margin-bottom: 45px; }
+
+/* --- Logo Type (FUTURE HOOMAN with Interactive Eyes) --- */
+.logo-type { /* (Same as before) */
+    font-family: var(--font-secondary-ui); font-weight: 700;
+    font-size: clamp(2rem, 8vw, 3.2rem); color: var(--color-logo-default);
+    line-height: 1.05; margin: 0; padding: 0; user-select: none;
+}
+.logo-word, .logo-char, .logo-oo { /* (Same as before) */
+    display: inline-block;
+    transition: opacity var(--transition-speed-medium) ease-in-out;
+}
+.logo-future { display: block; margin-bottom: 0.05em; letter-spacing: 2px; }
+.logo-line-hooman { display: flex; align-items: center; justify-content: center; }
+
+/* REFINED SPACING */
+.logo-char.logo-h { margin-right: -0.08em; }
+.logo-char.logo-man { margin-left: -0.08em; }
+.logo-oo { margin: 0 0.18em; }
+/* (Rest of .logo-oo and .eye-pupil base styles same as before) */
+.logo-oo {
+    width: 0.7em; height: 0.85em; border: 2px solid var(--color-eye-border-default);
+    border-radius: 45% / 50%; position: relative; vertical-align: middle;
+    background-color: rgba(10, 15, 31, 0.4); display: flex;
+    justify-content: center; align-items: center; overflow: hidden;
+    transition: border-color var(--transition-speed-fast) ease,
+                box-shadow var(--transition-speed-fast) ease,
+                background-color var(--transition-speed-fast) ease;
+}
+.eye-pupil {
+    width: 35%; height: 35%; background-color: var(--color-eye-pupil-default);
+    border-radius: 50%; box-shadow: 0 0 4px 1px var(--color-eye-pupil-default);
+    transition: all var(--transition-speed-medium) ease-in-out;
+}
+
+.logo-dimmed { opacity: var(--logo-dim-opacity); }
+
+/* "OO" Eye States (scanning, evaluating, focused-on-input, power-down, standby) */
+/* (These specific state styles remain the same as previous version) */
+.logo-oo.scanning .eye-pupil { /* Vertical slit, yellow, wobble */
+    width: 12%; height: 50%; background-color: var(--color-eye-scanning);
+    box-shadow: 0 0 8px 2px var(--color-eye-scanning); border-radius: 2px;
+    animation: eyeScanWobble 1.5s infinite ease-in-out;
+}
+@keyframes eyeScanWobble { /* (Same as before) */
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(-2px, 1px) scale(1.05); }
+    75% { transform: translate(2px, -1px) scale(0.95); }
+}
+.logo-oo.evaluating .eye-pupil { /* Horizontal slit, orange, pulse */
+    width: 50%; height: 10%; background-color: var(--color-eye-evaluating);
+    box-shadow: 0 0 10px 3px var(--color-eye-evaluating); border-radius: 2px;
+    animation: eyePulseEvaluate 1.2s infinite ease-in-out; /* Corrected typo 'değerlendirme' to 'Evaluate' */
+}
+@keyframes eyePulseEvaluate { /* (Same as before) */
+    0%, 100% { opacity: 1; transform: scaleX(1); }
+    50% { opacity: 0.7; transform: scaleX(1.2); }
+}
+.logo-oo.focused-on-input { /* Magenta glow, pupil dilates */
+    border-color: var(--color-eye-accent-glow);
+    box-shadow: 0 0 12px 2px var(--color-eye-accent-glow);
+}
+.logo-oo.focused-on-input .eye-pupil {
+    background-color: var(--color-eye-accent-glow);
+    box-shadow: 0 0 8px 2px var(--color-eye-accent-glow);
+    transform: scale(1.25);
+}
+.logo-oo.power-down { /* Dim, minimal */
+    border-color: #3a3f4f !important; box-shadow: none !important;
+    background-color: transparent !important;
+}
+.logo-oo.power-down .eye-pupil {
+    width: 10%; height: 10%; background-color: #2a2f3f !important;
+    box-shadow: none !important; opacity: 0.2;
+}
+.logo-oo.standby .eye-pupil { /* Dimmed pupil, slight shrink */
+    opacity: 0.4; background-color: #4a4f5f; transform: scale(0.8);
+}
+
+/* --- Dynamic Text Feeds (Megrim) --- */
+.status-feed, .post-submission-feed { /* (Same as before) */
+    min-height: 2em; margin-bottom: 30px; font-family: var(--font-primary-system-voice);
+    font-size: clamp(1.2rem, 4vw, 1.5rem); color: var(--color-text-megrim);
+    letter-spacing: 1px; line-height: 1.5;
+    transition: color var(--transition-speed-medium) ease-in-out;
+}
+
+/* --- Intake Form (Orbitron for input/button text) --- */
+.intake-form {
+    /* CRITICAL FIX: Ensure display and opacity are handled correctly */
+    display: none; /* Initially hidden */
+    opacity: 0;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+    width: 100%; /* Ensure it takes up space */
+    transition: opacity var(--transition-speed-medium) ease-in-out 0.1s; /* Slight delay for opacity after display change */
+}
+.intake-form.visible {
+    display: flex !important; /* Force display */
+    opacity: 1 !important; /* Force opacity */
+}
+.input-group {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    min-height: 50px; /* Ensure group has height */
+}
+#designationInput { /* (Same as before, ensure it's visible within group) */
+    width: 100%; padding: 14px 20px; background-color: rgba(25, 35, 60, 0.3);
+    border: 1px solid var(--color-text-orbitron); border-radius: 5px;
+    color: var(--color-text-orbitron); font-family: var(--font-secondary-ui);
+    font-size: 1rem; text-align: center; outline: none;
+    transition: border-color var(--transition-speed-fast) ease, box-shadow var(--transition-speed-fast) ease;
+    box-sizing: border-box;
+    /* Ensure visibility if text color was an issue */
+    /* For debugging: background-color: red !important; */
+}
+#designationInput::placeholder { color: rgba(192, 240, 255, 0.5); font-family: var(--font-secondary-ui); }
+#designationInput:focus { border-color: var(--color-eye-accent-glow); box-shadow: 0 0 10px var(--color-eye-accent-glow); }
+
+.stylized-whisper { /* (Same as before) */
+    position: absolute; bottom: -35px; left: 50%; transform: translateX(-50%);
+    font-family: var(--font-primary-system-voice); font-size: 0.9rem;
+    color: var(--color-megrim-whisper); opacity: 0;
+    transition: opacity var(--transition-speed-medium) ease;
+    pointer-events: none; white-space: nowrap;
+}
+@keyframes whisperGlitch { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; transform: skewX(-3deg); } }
+.stylized-whisper.active { animation: whisperGlitch 0.5s ease-in-out; }
+
+.submit-button { /* (Same as before, ensure visibility) */
+    padding: 12px 30px; background-color: transparent;
+    border: 2px solid var(--color-text-orbitron); color: var(--color-text-orbitron);
+    font-family: var(--font-secondary-ui); font-size: 1rem; font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase; cursor: pointer;
+    border-radius: 5px; transition: all var(--transition-speed-fast) ease;
+    min-height: 40px; /* Ensure button has height */
+    /* For debugging: background-color: blue !important; */
+}
+.submit-button:hover, .submit-button:focus { /* (Same as before) */
+    background-color: var(--color-eye-accent-glow); border-color: var(--color-eye-accent-glow);
+    color: var(--color-background-void); box-shadow: 0 0 12px var(--color-eye-accent-glow);
+}
+.submit-button:active { transform: scale(0.96); }
+.submit-button:disabled { opacity: 0.5; cursor: not-allowed; background-color: rgba(50,50,50,0.3); }
+
+
+/* --- Lore Reveal Section (Megrim) --- */
+/* (Styles for .lore-reveal-section, .lore-item, .background-effects, .sr-only same as previous version) */
+.lore-reveal-section {
+    margin-top: 40px; padding-top: 20px;
+    border-top: 1px solid rgba(192, 240, 255, 0.15);
+    transition: opacity var(--transition-speed-medium) ease-in-out var(--transition-speed-fast);
+}
+
+.lore-reveal-section.visible {
+    display: block !important; /* Force display */
+    opacity: 1 !important;     /* Force opacity */
+    min-height: 100px !important; /* Ensure it has some renderable height */
+    background-color: rgba(0, 255, 0, 0.3) !important; /* Bright green semi-transparent background */
+    outline: 3px dashed hotpink !important; /* Unmistakable outline */
+    position: relative;      /* Required for z-index to reliably work */
+    z-index: 9999 !important;  /* Attempt to bring it to the very front */
+    }
+
+    /* Original transition (can be commented out for pure diagnostic if needed, but let's keep it for now) */
+    /* transition: opacity var(--transition-speed-medium) ease-in-out var(--transition-speed-fast); */
+    /* If the above transition is causing issues with the !important opacity, we can temporarily remove it */
+    /* For purest diagnostic, you might even comment out the transition on .lore-reveal-section itself: */
+    /*
+    .lore-reveal-section {
+        margin-top: 40px; padding-top: 20px;
+        border-top: 1px solid rgba(192, 240, 255, 0.15);
+        /* transition: opacity var(--transition-speed-medium) ease-in-out var(--transition-speed-fast); */ /* << TEMP COMMENT OUT */
+
+
+.lore-item {
+    font-family: var(--font-primary-system-voice); font-size: clamp(0.9rem, 2.8vw, 1.1rem);
+    color: var(--color-megrim-lore); margin-bottom: 0.8em; letter-spacing: 0.5px;
+    line-height: 1.6; opacity: 0; transform: translateY(10px);
+    transition: opacity var(--transition-speed-medium) ease, transform var(--transition-speed-medium) ease;
+    outline: 1px dotted red;
+}
+.lore-item.visible { opacity: 1; transform: translateY(0);
+outline: 2px solid lime; 
+}
+
+.background-effects {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: -1;
+    background-image:
+        linear-gradient(rgba(176, 224, 230, 0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(176, 224, 230, 0.008) 1px, transparent 1px);
+    background-size: 1px 3px, 50px 1px;
+    animation: scanlineBackgroundAnim 60s linear infinite alternate;
+}
+@keyframes scanlineBackgroundAnim { 0% { background-position-y: 0; } 100% { background-position-y: 60px; } }
+.sr-only {
+	border: 0 !important; clip: rect(1px, 1px, 1px, 1px) !important;
+	-webkit-clip-path: inset(50%) !important; clip-path: inset(50%) !important;
+	height: 1px !important; margin: -1px !important; overflow: hidden !important;
+	padding: 0 !important; position: absolute !important; width: 1px !important;
+	white-space: nowrap !important;
+}

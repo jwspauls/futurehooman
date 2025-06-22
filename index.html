@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FUTURE HOOMAN // AWAITING INTERFACE...</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Megrim&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="portal-container">
+        <header class="portal-header">
+            <h1 class="logo-type" id="logoType">
+                <span class="logo-word logo-future">FUTURE</span>
+                <div class="logo-line-hooman">
+                    <span class="logo-char logo-h">H</span><span class="logo-oo eye-left" id="eyeLeft"><span class="eye-pupil"></span></span><span class="logo-oo eye-right" id="eyeRight"><span class="eye-pupil"></span></span><span class="logo-char logo-man">MAN</span>
+                </div>
+            </h1>
+        </header>
+
+        <main class="portal-main">
+            <div class="status-feed" id="statusFeed">
+                <!-- JS populates pre-evaluation sequence (Megrim font) -->
+            </div>
+
+            <form id="intakeForm" class="intake-form" style="display: none; opacity: 0;">
+                <div class="input-group">
+                    <label for="designationInput" class="sr-only">Enter Designation</label>
+                    <input type="text" id="designationInput" name="designation" placeholder="[email address required]" required>
+                    <div class="stylized-whisper" id="stylizedWhisper">
+                        <!-- JS populates Megrim whispers here -->
+                    </div>
+                </div>
+                <button type="submit" id="submitButton" class="submit-button">INITIATE_ECHO</button>
+            </form>
+
+            <div class="post-submission-feed" id="postSubmissionFeed" style="display: none;">
+                <!-- JS populates main confirmation (Megrim font) -->
+            </div>
+
+            <section class="lore-reveal-section" id="loreRevealSection" style="display: none; opacity: 0;">
+                <h2 class="lore-header sr-only">[Decrypted Archive Fragments]</h2>
+                <!-- JS populates Level 0.5 lore (Megrim font) -->
+            </section>
+        </main>
+    </div>
+
+    <div class="background-effects"></div>
+    <script src="script.js"></script>
+</body>
+</html>
