@@ -153,56 +153,81 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    document.addEventListener('DOMContentLoaded', () => {
+        const uaField = document.getElementById('ua-field');
+        if (uaField) {
+          uaField.value = navigator.userAgent;
+        }
+      });      
+    
     intakeForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const userResonanceKey = designationInput.value;
-        submitButton.disabled = true; submitButton.textContent = 'VERIFYING...';
-        stylizedWhisper.style.opacity = '0';
-        updateEyeState('evaluating'); // Eyes show processing as "OO"s
-
+    
+        const email = designationInput.value.trim();
+        const honeypot = '';
+        const userAgent = navigator.userAgent;
+    
+        // Disable button
+        submitButton.disabled = true;
+        submitButton.textContent = 'VERIFYING...';
+    
+        updateEyeState('evaluating');
         intakeForm.classList.remove('visible');
-        await new Promise(resolve => setTimeout(resolve, parseFloat(getComputedStyle(intakeForm).transitionDuration) * 1000 + 50)); // Wait for opacity transition
-        intakeForm.style.display = 'none'; // Then set display to none
-        
+        await new Promise(resolve => setTimeout(resolve, parseFloat(getComputedStyle(intakeForm).transitionDuration) * 1000 + 50));
+        intakeForm.style.display = 'none';
         postSubmissionFeed.style.display = 'block';
-
-        typeMessage(postSubmissionFeed, "RESONANCE KEY SUBMITTED. VALIDATING ECHO INTEGRITY...", 'var(--color-megrim-evaluating)', async () => {
-            await new Promise(resolve => setTimeout(resolve, 2800));
-            const simulatedSuccess = true;
-
-            if (simulatedSuccess) {
-                typeMessage(postSubmissionFeed, "ECHO VALIDATED. CONNECTION ESTABLISHED. DECRYPTING ARCHIVE FRAGMENTS...", 'var(--color-megrim-accepted)', async () => {
-                    updateEyeState('power-down');
-                    await new Promise(resolve => setTimeout(resolve, 1200));
-                    postSubmissionFeed.style.display = 'none';
-                    loreRevealSection.style.display = 'block';
-                    setTimeout(() => loreRevealSection.classList.add('visible'), 50);
-
-                    loreRevealSection.innerHTML = `<h2 class="lore-header sr-only">[Decrypted Archive Fragments]</h2>`;
-                    for (let i = 0; i < loreSnippets.length; i++) {
-                        const snippetText = loreSnippets[i].replace('[RESONANCE_KEY]', userResonanceKey);
-                        const p = document.createElement('p');
-                        p.className = 'lore-item';
-                        p.textContent = snippetText;
-                        loreRevealSection.appendChild(p);
-                        console.log('Appending lore item:', p);
-                        await new Promise(resolve => setTimeout(resolve, 100));
-                        p.classList.add('visible');
-                        console.log('Making lore item visible:', p);
-                        await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 500));
-                    }
+    
+        grecaptcha.ready(() => {
+            grecaptcha.execute('6LeBy3IrAAAAAEV-4NZPQSEGYv0uJKSrKSRoU6rN', { action: 'submit' }).then(async (token) => {
+                const formData = new FormData();
+                formData.append('email', email);
+                formData.append('middle_name', honeypot);
+                formData.append('ua', userAgent);
+                formData.append('g-recaptcha-response', token);
+    
+                const response = await fetch('https://script.google.com/macros/s/AKfycbzI6Q7E4YRC0z5eBYQzol0uQT9ZDO2_FbRyHgWBFsmuio1O0q6_1QN764yzD3woULww/exec', {
+                    method: 'POST',
+                    body: formData
                 });
-            } else { /* (Same error handling as before) */
-                typeMessage(postSubmissionFeed, "TRANSMISSION ERROR. ECHO CORRUPTED. RE-INITIATE.", 'var(--color-megrim-error)', () => {
-                    updateEyeState('default'); submitButton.disabled = false; submitButton.textContent = 'INITIATE_ECHO';
-                    setTimeout(() => {
-                        postSubmissionFeed.style.display = 'none'; statusFeed.innerHTML = '';
-                        currentPhaseIndex = 0; processPreEvaluationSequence();
-                    }, 3000);
-                });
-            }
+    
+                const responseText = await response.text();
+    
+                if (responseText.includes('Thanks')) {
+                    typeMessage(postSubmissionFeed, "ECHO VALIDATED. CONNECTION ESTABLISHED. DECRYPTING ARCHIVE FRAGMENTS...", 'var(--color-megrim-accepted)', async () => {
+                        updateEyeState('power-down');
+                        await new Promise(resolve => setTimeout(resolve, 1200));
+                        postSubmissionFeed.style.display = 'none';
+                        loreRevealSection.style.display = 'block';
+                        setTimeout(() => loreRevealSection.classList.add('visible'), 50);
+    
+                        loreRevealSection.innerHTML = `<h2 class="lore-header sr-only">[Decrypted Archive Fragments]</h2>`;
+                        for (let i = 0; i < loreSnippets.length; i++) {
+                            const snippetText = loreSnippets[i].replace('[RESONANCE_KEY]', email);
+                            const p = document.createElement('p');
+                            p.className = 'lore-item';
+                            p.textContent = snippetText;
+                            loreRevealSection.appendChild(p);
+                            await new Promise(resolve => setTimeout(resolve, 100));
+                            p.classList.add('visible');
+                            await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 500));
+                        }
+                    });
+                } else {
+                    typeMessage(postSubmissionFeed, "TRANSMISSION ERROR. ECHO CORRUPTED. RE-INITIATE.", 'var(--color-megrim-error)', () => {
+                        updateEyeState('default');
+                        submitButton.disabled = false;
+                        submitButton.textContent = 'INITIATE_ECHO';
+                        setTimeout(() => {
+                            postSubmissionFeed.style.display = 'none';
+                            statusFeed.innerHTML = '';
+                            currentPhaseIndex = 0;
+                            processPreEvaluationSequence();
+                        }, 3000);
+                    });
+                }
+            });
         });
-    });
+    });    
     
     // Initial call
     processPreEvaluationSequence();
