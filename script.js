@@ -211,6 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             p.classList.add('visible');
                             await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 500));
                         }
+                        typeMessage(statusFeed, "INPUT ACQUIRED. USER SIGNATURE ARCHIVED. CONTACT PENDING.", 'var(--color-megrim-accepted)');
                     });
                 } else {
                     typeMessage(postSubmissionFeed, "TRANSMISSION ERROR. ECHO CORRUPTED. RE-INITIATE.", 'var(--color-megrim-error)', () => {
