@@ -139,7 +139,7 @@ body { /* (Same as before) */
     position: relative;
     width: 100%;
     max-width: 400px;
-    min-height: 50px; /* Ensure group has height */
+    min-height: 75px; /* Ensure group has height */
 }
 #designationInput { /* (Same as before, ensure it's visible within group) */
     width: 100%; padding: 14px 20px; background-color: rgba(25, 35, 60, 0.3);
@@ -170,6 +170,7 @@ body { /* (Same as before) */
     font-family: var(--font-secondary-ui); font-size: 1rem; font-weight: 700;
     letter-spacing: 1.5px; text-transform: uppercase; cursor: pointer;
     border-radius: 5px; transition: all var(--transition-speed-fast) ease;
+    margin-top: 20px; /* Add extra space between input and button */
     min-height: 40px; /* Ensure button has height */
     /* For debugging: background-color: blue !important; */
 }
